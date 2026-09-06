@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de contactos</title>
+</head>
+
+<body>
+
+    <h1>Contactos</h1>
+
+    <form method="get">
+        <input name="q" value="{{ q }}" placeholder="Buscar por nombre o correo">
+        <button>Buscar</button>
+    </form>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Agregar contacto</button>
+    </form>
+
+    <ul>
+        {% for contacto in contactos %}
+
+            <li>{{ contacto.nombre }} | {{ contacto.telefono }} | {{ contacto.correo }} | {{ contacto.direccion }}</li>
+
+            {% empty %} <li>No hay contactos.</li>
+
+        {% endfor %}
+    </ul>
+
+
+</body>
+
+</html>
