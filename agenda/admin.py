@@ -5,6 +5,7 @@ from .models import contacto
 admin.site.site_header = "📇 Panel de Administración – Agenda"
 admin.site.site_title = "Agenda Admin"
 admin.site.index_title = "Gestión de Contactos"
+admin.site.index_template = "admin/agenda_index.html"
 
 @admin.register(contacto)
 class ContactoAdmin(admin.ModelAdmin):

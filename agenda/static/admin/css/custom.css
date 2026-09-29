@@ -1,22 +1,165 @@
-/* Custom admin CSS */
-/* Cambia el color de fondo del encabezado del admin */
+:root {
+    --chat-green: #075e54;
+    --chat-green-light: #128c7e;
+    --chat-lime: #25d366;
+    --chat-paper: #f2f7f4;
+    --chat-ink: #26332e;
+}
+
+body,
+#content {
+    background-color: var(--chat-paper);
+    color: var(--chat-ink);
+}
+
+#header,
+.module caption,
+.module h2,
+.module h3 {
+    background: var(--chat-green) !important;
+    color: #fff !important;
+}
+
 #header {
-    background-color: #4a90e2 !important;
+    border-bottom: 4px solid var(--chat-lime);
+}
+
+#branding h1,
+#branding h1 a:link,
+#branding h1 a:visited {
     color: #fff;
 }
-/* Mejorar la tabla del listado */
-.module table thead th {
-    background-color: #f0f8ff !important;
-    color: #333;
-    font-weight: bold;
+
+#nav-sidebar {
+    background: #e7f2ec;
 }
-/* Resaltar filas al pasar el mouse */
-.module table tbody tr:hover {
-    background-color: #e6f7ff;
+
+#nav-sidebar .current-model,
+#nav-sidebar .current-app .section {
+    border-left: 3px solid var(--chat-lime);
 }
-/* Botones más grandes */
-button, input[type=submit] {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
+
+a:link,
+a:visited {
+    color: var(--chat-green-light);
+}
+
+a:hover {
+    color: var(--chat-green);
+}
+
+.button,
+input[type=submit],
+input[type=button],
+.submit-row input,
+a.button {
+    background: var(--chat-green-light) !important;
+    border: 0;
     border-radius: 4px;
+    color: #fff !important;
+    padding: 0.55rem 1rem;
+}
+
+.button:hover,
+input[type=submit]:hover,
+input[type=button]:hover,
+.submit-row input:hover,
+a.button:hover {
+    background: var(--chat-green) !important;
+}
+
+.module table thead th {
+    background: #e2f1e8 !important;
+    color: var(--chat-ink);
+    font-weight: 700;
+}
+
+.module table tbody tr:hover {
+    background: #edf8f0;
+}
+
+.malphite-welcome {
+    align-items: center;
+    background-color: #fff;
+    background-image: radial-gradient(#d6e9dd 0.8px, transparent 0.8px);
+    background-size: 18px 18px;
+    border: 1px solid #d6e7dc;
+    border-left: 5px solid var(--chat-lime);
+    border-radius: 6px;
+    box-shadow: 0 4px 14px rgb(7 94 84 / 9%);
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    max-width: 760px;
+    min-height: 190px;
+    overflow: hidden;
+    padding: 1.25rem 2rem;
+    text-align: left;
+}
+
+.malphite-art {
+    flex: 0 0 144px;
+    height: 144px;
+    position: relative;
+}
+
+.malphite-art img {
+    border: 5px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 3px 12px rgb(0 0 0 / 20%);
+    height: 136px;
+    object-fit: cover;
+    width: 136px;
+}
+
+.whatsapp-mark {
+    align-items: center;
+    background: var(--chat-lime);
+    border: 3px solid #fff;
+    border-radius: 50%;
+    bottom: 0;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
+    color: #fff;
+    display: flex;
+    font-size: 1.3rem;
+    height: 46px;
+    justify-content: center;
+    position: absolute;
+    right: -2px;
+    width: 46px;
+}
+
+.malphite-copy h2 {
+    background: transparent !important;
+    color: var(--chat-green) !important;
+    font-size: 1.45rem;
+    margin: 0 0 0.35rem;
+}
+
+.malphite-copy p {
+    color: #52635a;
+    margin: 0;
+}
+
+.malphite-status {
+    color: var(--chat-green-light) !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.45rem !important;
+    text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+    .malphite-welcome {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1.25rem;
+        text-align: center;
+    }
+
+    .malphite-copy h2 {
+        font-size: 1.25rem;
+    }
 }
