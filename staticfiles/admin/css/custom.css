@@ -1,0 +1,22 @@
+/* Custom admin CSS */
+/* Cambia el color de fondo del encabezado del admin */
+#header {
+    background-color: #4a90e2 !important;
+    color: #fff;
+}
+/* Mejorar la tabla del listado */
+.module table thead th {
+    background-color: #f0f8ff !important;
+    color: #333;
+    font-weight: bold;
+}
+/* Resaltar filas al pasar el mouse */
+.module table tbody tr:hover {
+    background-color: #e6f7ff;
+}
+/* Botones más grandes */
+button, input[type=submit] {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+}
