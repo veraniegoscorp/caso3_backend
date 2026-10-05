@@ -1,5 +1,6 @@
 import io
-import csv
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from django.db.models import Q
 from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
@@ -8,17 +9,17 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ContactoForm
 from .models import contacto
 
+
 def mostrar_agenda(request):
     """
     Vista principal de la agenda: listado con búsqueda, paginación,
     validación de formulario de creación y feedback con mensajes.
     """
     q = request.GET.get('q', '').strip()
-    
-    # Filtrado según término de búsqueda
+
     if q:
         contactos_qs = contacto.objects.filter(
-            Q(nombre__icontains=q) | 
+            Q(nombre__icontains=q) |
             Q(correo__icontains=q) |
             Q(telefono__icontains=q) |
             Q(direccion__icontains=q)
@@ -26,31 +27,29 @@ def mostrar_agenda(request):
     else:
         contactos_qs = contacto.objects.all().order_by('-id')
 
-    # Manejo del formulario de creación
     if request.method == 'POST':
         form = ContactoForm(request.POST)
         if form.is_valid():
             try:
                 nuevo_contacto = form.save()
                 messages.success(
-                    request, 
+                    request,
                     f'✨ ¡Contacto "{nuevo_contacto.nombre}" registrado exitosamente!'
                 )
                 return redirect('mostrar_agenda')
             except Exception as e:
                 messages.error(
-                    request, 
+                    request,
                     f'Ocurrió un error al intentar guardar el contacto: {str(e)}'
                 )
         else:
             messages.error(
-                request, 
+                request,
                 '⚠️ No se pudo guardar el contacto. Revisa los campos resaltados.'
             )
     else:
         form = ContactoForm()
 
-    # Paginación (6 contactos por página)
     paginator = Paginator(contactos_qs, 6)
     page_number = request.GET.get('page')
     try:
@@ -89,14 +88,13 @@ def eliminar_contacto(request, pk):
 
 def exportar_contactos_csv(request):
     """
-    Exporta el listado completo o filtrado de contactos a un archivo CSV optimizado para Excel.
-    Usa codificación utf-8-sig (BOM nativo) y delimitador ';' para que cada campo
-    se posicione en su casilla correspondiente sin caracteres corruptos ni cabeceras extrañas.
+    Genera un archivo .xlsx real de Excel con cada campo en su propia casilla,
+    encabezados estilizados y columnas auto-ajustadas.
     """
     q = request.GET.get('q', '').strip()
     if q:
         contactos_qs = contacto.objects.filter(
-            Q(nombre__icontains=q) | 
+            Q(nombre__icontains=q) |
             Q(correo__icontains=q) |
             Q(telefono__icontains=q) |
             Q(direccion__icontains=q)
@@ -104,24 +102,58 @@ def exportar_contactos_csv(request):
     else:
         contactos_qs = contacto.objects.all().order_by('-id')
 
-    buffer = io.StringIO()
-    writer = csv.writer(buffer, delimiter=';', quoting=csv.QUOTE_MINIMAL)
-    
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Contactos"
+
+    # Estilos para encabezados
+    header_font = Font(name='Calibri', bold=True, color='FFFFFF', size=11)
+    header_fill = PatternFill(start_color='1E293B', end_color='1E293B', fill_type='solid')
+    header_align = Alignment(horizontal='center', vertical='center')
+    thin_border = Border(
+        left=Side(style='thin', color='D4AF37'),
+        right=Side(style='thin', color='D4AF37'),
+        top=Side(style='thin', color='D4AF37'),
+        bottom=Side(style='thin', color='D4AF37'),
+    )
+
     # Encabezados
-    writer.writerow(['ID', 'Nombre Completo', 'Teléfono', 'Correo Electrónico', 'Dirección'])
+    headers = ['ID', 'Nombre Completo', 'Teléfono', 'Correo Electrónico', 'Dirección']
+    for col_num, header in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col_num, value=header)
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.alignment = header_align
+        cell.border = thin_border
 
-    for c in contactos_qs:
-        writer.writerow([
-            c.id, 
-            str(c.nombre).strip(), 
-            str(c.telefono).strip(), 
-            str(c.correo).strip(), 
-            str(c.direccion).strip()
-        ])
+    # Datos
+    data_font = Font(name='Calibri', size=10)
+    data_align = Alignment(vertical='center')
+    for row_num, c in enumerate(contactos_qs, 2):
+        values = [c.id, c.nombre, c.telefono, c.correo, c.direccion]
+        for col_num, value in enumerate(values, 1):
+            cell = ws.cell(row=row_num, column=col_num, value=value)
+            cell.font = data_font
+            cell.alignment = data_align
+            cell.border = thin_border
 
-    # Codificar con BOM UTF-8 limpio para Excel
-    csv_bytes = buffer.getvalue().encode('utf-8-sig')
+    # Auto-ajustar anchos de columna
+    for col in ws.columns:
+        max_length = 0
+        col_letter = col[0].column_letter
+        for cell in col:
+            if cell.value:
+                max_length = max(max_length, len(str(cell.value)))
+        ws.column_dimensions[col_letter].width = max_length + 4
 
-    response = HttpResponse(csv_bytes, content_type='text/csv; charset=utf-8')
-    response['Content-Disposition'] = 'attachment; filename="contactos_agenda.csv"'
+    # Escribir a bytes
+    buffer = io.BytesIO()
+    wb.save(buffer)
+    buffer.seek(0)
+
+    response = HttpResponse(
+        buffer.getvalue(),
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="contactos_agenda.xlsx"'
     return response

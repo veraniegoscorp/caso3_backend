@@ -1,5 +1,6 @@
 import io
-import csv
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from django.contrib import admin, messages
 from django.http import HttpResponse
 from django.core.exceptions import ValidationError
@@ -13,41 +14,74 @@ admin.site.index_title = "Panel de Gestión y Contactos"
 admin.site.index_template = "admin/agenda_index.html"
 
 
-@admin.action(description="📥 Exportar contactos seleccionados a archivo CSV")
-def exportar_contactos_a_csv(modeladmin, request, queryset):
+@admin.action(description="📥 Exportar contactos seleccionados a Excel (.xlsx)")
+def exportar_contactos_a_excel(modeladmin, request, queryset):
     """
-    Exportación de registros a CSV optimizada para Microsoft Excel.
-    Usa codificación utf-8-sig (BOM nativo) y delimitador ';' para que cada campo
-    se posicione en su casilla correspondiente sin caracteres corruptos ni cabeceras extrañas.
+    Genera un archivo .xlsx real con cada campo en su propia casilla,
+    con encabezados estilizados y columnas auto-ajustadas.
     """
     try:
-        buffer = io.StringIO()
-        writer = csv.writer(buffer, delimiter=';', quoting=csv.QUOTE_MINIMAL)
-        
-        # Encabezados limpios
-        writer.writerow(['ID', 'Nombre Completo', 'Teléfono', 'Correo Electrónico', 'Dirección'])
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Contactos"
 
+        # Estilos para encabezados
+        header_font = Font(name='Calibri', bold=True, color='FFFFFF', size=11)
+        header_fill = PatternFill(start_color='1E293B', end_color='1E293B', fill_type='solid')
+        header_align = Alignment(horizontal='center', vertical='center')
+        thin_border = Border(
+            left=Side(style='thin', color='D4AF37'),
+            right=Side(style='thin', color='D4AF37'),
+            top=Side(style='thin', color='D4AF37'),
+            bottom=Side(style='thin', color='D4AF37'),
+        )
+
+        # Encabezados
+        headers = ['ID', 'Nombre Completo', 'Teléfono', 'Correo Electrónico', 'Dirección']
+        for col_num, header in enumerate(headers, 1):
+            cell = ws.cell(row=1, column=col_num, value=header)
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = header_align
+            cell.border = thin_border
+
+        # Datos
+        data_font = Font(name='Calibri', size=10)
+        data_align = Alignment(vertical='center')
         count = 0
-        for obj in queryset:
-            writer.writerow([
-                obj.id, 
-                str(obj.nombre).strip(), 
-                str(obj.telefono).strip(), 
-                str(obj.correo).strip(), 
-                str(obj.direccion).strip()
-            ])
+        for row_num, obj in enumerate(queryset, 2):
+            values = [obj.id, obj.nombre, obj.telefono, obj.correo, obj.direccion]
+            for col_num, value in enumerate(values, 1):
+                cell = ws.cell(row=row_num, column=col_num, value=value)
+                cell.font = data_font
+                cell.alignment = data_align
+                cell.border = thin_border
             count += 1
 
-        # Codificar en utf-8-sig (garantiza compatibilidad nativa con Excel)
-        csv_bytes = buffer.getvalue().encode('utf-8-sig')
-        
-        response = HttpResponse(csv_bytes, content_type='text/csv; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename="contactos_exportados_admin.csv"'
+        # Auto-ajustar anchos de columna
+        for col in ws.columns:
+            max_length = 0
+            col_letter = col[0].column_letter
+            for cell in col:
+                if cell.value:
+                    max_length = max(max_length, len(str(cell.value)))
+            ws.column_dimensions[col_letter].width = max_length + 4
 
-        messages.success(request, f'✅ ¡Exportación exitosa! Se han exportado {count} contacto(s) en columnas limpias para Excel.')
+        # Escribir a bytes
+        buffer = io.BytesIO()
+        wb.save(buffer)
+        buffer.seek(0)
+
+        response = HttpResponse(
+            buffer.getvalue(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = 'attachment; filename="contactos_admin.xlsx"'
+
+        messages.success(request, f'✅ ¡Exportación exitosa! {count} contacto(s) exportados a Excel.')
         return response
     except Exception as ex:
-        messages.error(request, f'❌ Error al generar la exportación CSV: {str(ex)}')
+        messages.error(request, f'❌ Error al generar el archivo Excel: {str(ex)}')
         return None
 
 
@@ -76,7 +110,7 @@ class ContactoAdmin(admin.ModelAdmin):
     ordering = ('-id',)
     
     # Acciones personalizadas
-    actions = [exportar_contactos_a_csv]
+    actions = [exportar_contactos_a_excel]
 
     # Inyección de CSS personalizado centrado y moderno
     class Media:
