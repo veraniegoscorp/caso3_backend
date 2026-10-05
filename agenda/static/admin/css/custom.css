@@ -1,165 +1,417 @@
+/* ==========================================================================
+   PANEL ADMIN CORPORATIVO Y ELEGANTE (CENTRADO Y PROFESIONAL)
+   ========================================================================== */
+
 :root {
-    --chat-green: #075e54;
-    --chat-green-light: #128c7e;
-    --chat-lime: #25d366;
-    --chat-paper: #f2f7f4;
-    --chat-ink: #26332e;
+    --admin-primary: #1e293b;
+    --admin-secondary: #0f172a;
+    --admin-accent: #d4af37;
+    --admin-accent-hover: #b89628;
+    --admin-bg: #f8fafc;
+    --admin-card-bg: #ffffff;
+    --admin-border: #e2e8f0;
+    --admin-text: #1e293b;
+    --admin-text-muted: #64748b;
+    --admin-success: #10b981;
+    --admin-warning: #f59e0b;
+    --admin-danger: #ef4444;
 }
 
-body,
+/* Centrado global del Layout de Django Admin */
+body {
+    background-color: var(--admin-bg) !important;
+    color: var(--admin-text) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    background: transparent !important;
+    min-height: 100vh;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+}
+
+/* Header estilizado y centrado */
+#header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+    color: #f8fafc !important;
+    padding: 1.25rem 2rem !important;
+    border-bottom: 3px solid var(--admin-accent) !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#branding h1 {
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#branding h1 a:link, 
+#branding h1 a:visited {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+#user-tools {
+    font-size: 0.88rem !important;
+    color: #cbd5e1 !important;
+}
+
+#user-tools a {
+    color: var(--admin-accent) !important;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+#user-tools a:hover {
+    background: rgba(212, 175, 55, 0.15);
+    color: #fff !important;
+}
+
+/* Breadcrumbs centradas y limpias */
+div.breadcrumbs {
+    background: #ffffff !important;
+    border-bottom: 1px solid var(--admin-border) !important;
+    padding: 0.85rem 2rem !important;
+    font-size: 0.88rem !important;
+    color: var(--admin-text-muted) !important;
+}
+
+div.breadcrumbs a {
+    color: #2563eb !important;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* Contenedor de contenido centrado */
 #content {
-    background-color: var(--chat-paper);
-    color: var(--chat-ink);
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding: 2rem !important;
+    background: transparent !important;
 }
 
-#header,
+/* Banner de Bienvenida Profesional (Reemplaza a Malphite) */
+.admin-welcome-card {
+    background: #ffffff;
+    border: 1px solid var(--admin-border);
+    border-top: 4px solid var(--admin-accent);
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.welcome-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.welcome-icon {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    width: 65px;
+    height: 65px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-badge {
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    margin-bottom: 0.35rem;
+}
+
+.welcome-text h2 {
+    margin: 0 0 0.3rem 0 !important;
+    font-size: 1.45rem !important;
+    font-weight: 700 !important;
+    color: var(--admin-secondary) !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.welcome-text p {
+    margin: 0;
+    color: var(--admin-text-muted);
+    font-size: 0.95rem;
+}
+
+.welcome-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.btn-executive {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-executive-gold {
+    background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.btn-executive-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+
+.btn-executive-dark {
+    background: #1e293b;
+    color: #ffffff !important;
+    border: 1px solid #334155;
+}
+
+.btn-executive-dark:hover {
+    background: #0f172a;
+    transform: translateY(-2px);
+}
+
+/* Tarjetas y Módulos Profesionales */
+.module {
+    background: #ffffff !important;
+    border: 1px solid var(--admin-border) !important;
+    border-radius: 10px !important;
+    margin-bottom: 1.75rem !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+    overflow: hidden !important;
+}
+
 .module caption,
 .module h2,
 .module h3 {
-    background: var(--chat-green) !important;
-    color: #fff !important;
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
+    font-size: 0.98rem !important;
+    padding: 0.85rem 1.25rem !important;
+    border-bottom: 1px solid var(--admin-border) !important;
 }
 
-#header {
-    border-bottom: 4px solid var(--chat-lime);
-}
-
-#branding h1,
-#branding h1 a:link,
-#branding h1 a:visited {
-    color: #fff;
-}
-
-#nav-sidebar {
-    background: #e7f2ec;
-}
-
-#nav-sidebar .current-model,
-#nav-sidebar .current-app .section {
-    border-left: 3px solid var(--chat-lime);
-}
-
-a:link,
-a:visited {
-    color: var(--chat-green-light);
-}
-
-a:hover {
-    color: var(--chat-green);
-}
-
-.button,
-input[type=submit],
-input[type=button],
-.submit-row input,
-a.button {
-    background: var(--chat-green-light) !important;
-    border: 0;
-    border-radius: 4px;
-    color: #fff !important;
-    padding: 0.55rem 1rem;
-}
-
-.button:hover,
-input[type=submit]:hover,
-input[type=button]:hover,
-.submit-row input:hover,
-a.button:hover {
-    background: var(--chat-green) !important;
+/* Tablas con estilo corporativo y espaciado */
+.module table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
 }
 
 .module table thead th {
-    background: #e2f1e8 !important;
-    color: var(--chat-ink);
-    font-weight: 700;
+    background: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+    padding: 0.85rem 1rem !important;
+    border-bottom: 2px solid var(--admin-border) !important;
+}
+
+.module table tbody td,
+.module table tbody th {
+    padding: 0.85rem 1rem !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    color: #1e293b !important;
+    font-size: 0.92rem !important;
 }
 
 .module table tbody tr:hover {
-    background: #edf8f0;
+    background-color: #f8fafc !important;
 }
 
-.malphite-welcome {
-    align-items: center;
-    background-color: #fff;
-    background-image: radial-gradient(#d6e9dd 0.8px, transparent 0.8px);
-    background-size: 18px 18px;
-    border: 1px solid #d6e7dc;
-    border-left: 5px solid var(--chat-lime);
-    border-radius: 6px;
-    box-shadow: 0 4px 14px rgb(7 94 84 / 9%);
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-    max-width: 760px;
-    min-height: 190px;
-    overflow: hidden;
-    padding: 1.25rem 2rem;
-    text-align: left;
+/* Mensajes de Feedback de Interfaz (Alerts) */
+ul.messagelist {
+    margin: 0 0 1.5rem 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
 }
 
-.malphite-art {
-    flex: 0 0 144px;
-    height: 144px;
-    position: relative;
+ul.messagelist li {
+    padding: 0.9rem 1.25rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.75rem !important;
+    font-size: 0.92rem !important;
+    font-weight: 500 !important;
+    display: flex !important;
+    align-items: center !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
 }
 
-.malphite-art img {
-    border: 5px solid #fff;
-    border-radius: 50%;
-    box-shadow: 0 3px 12px rgb(0 0 0 / 20%);
-    height: 136px;
-    object-fit: cover;
-    width: 136px;
+ul.messagelist li.success {
+    background: #ecfdf5 !important;
+    color: #065f46 !important;
+    border: 1px solid #a7f3d0 !important;
+    border-left: 5px solid #10b981 !important;
 }
 
-.whatsapp-mark {
-    align-items: center;
-    background: var(--chat-lime);
-    border: 3px solid #fff;
-    border-radius: 50%;
-    bottom: 0;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
-    color: #fff;
-    display: flex;
-    font-size: 1.3rem;
-    height: 46px;
-    justify-content: center;
-    position: absolute;
-    right: -2px;
-    width: 46px;
+ul.messagelist li.warning {
+    background: #fffbeb !important;
+    color: #92400e !important;
+    border: 1px solid #fde68a !important;
+    border-left: 5px solid #f59e0b !important;
 }
 
-.malphite-copy h2 {
-    background: transparent !important;
-    color: var(--chat-green) !important;
-    font-size: 1.45rem;
-    margin: 0 0 0.35rem;
+ul.messagelist li.error {
+    background: #fef2f2 !important;
+    color: #991b1b !important;
+    border: 1px solid #fecaca !important;
+    border-left: 5px solid #ef4444 !important;
 }
 
-.malphite-copy p {
-    color: #52635a;
-    margin: 0;
+/* Botones e Inputs del Admin */
+.button, 
+input[type=submit], 
+input[type=button], 
+.submit-row input, 
+a.button {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    border: 1px solid #334155 !important;
+    border-radius: 6px !important;
+    padding: 0.6rem 1.2rem !important;
+    font-weight: 600 !important;
+    font-size: 0.88rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
 }
 
-.malphite-status {
-    color: var(--chat-green-light) !important;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    margin-bottom: 0.45rem !important;
-    text-transform: uppercase;
+.button:hover, 
+input[type=submit]:hover, 
+input[type=button]:hover, 
+.submit-row input:hover, 
+a.button:hover {
+    background: #0f172a !important;
+    border-color: #0f172a !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.15);
 }
 
-@media (max-width: 600px) {
-    .malphite-welcome {
+.button.default, 
+input[type=submit].default, 
+.submit-row input.default {
+    background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+
+.button.default:hover, 
+input[type=submit].default:hover, 
+.submit-row input.default:hover {
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+/* Paginador centrado y estilizado */
+.paginator {
+    background: #ffffff !important;
+    border: 1px solid var(--admin-border) !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 1.25rem !important;
+    margin-top: 1rem !important;
+    font-size: 0.88rem !important;
+    color: var(--admin-text-muted) !important;
+}
+
+.paginator a:link, 
+.paginator a:visited {
+    color: #2563eb !important;
+    font-weight: 600 !important;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+.paginator .this-page {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    padding: 0.25rem 0.6rem !important;
+    border-radius: 4px !important;
+    font-weight: 700 !important;
+}
+
+/* Barra de Búsqueda y Filtros */
+#toolbar {
+    background: #ffffff !important;
+    border: 1px solid var(--admin-border) !important;
+    border-radius: 8px !important;
+    padding: 0.85rem 1.25rem !important;
+    margin-bottom: 1.25rem !important;
+}
+
+#changelist-search input[type="text"] {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 0.5rem 0.85rem !important;
+    font-size: 0.9rem !important;
+    width: 280px !important;
+}
+
+#changelist-search input[type="text"]:focus {
+    border-color: var(--admin-accent) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Barra de Filtros Lateral */
+#changelist-filter {
+    background: #ffffff !important;
+    border-left: 1px solid var(--admin-border) !important;
+    border-radius: 0 8px 8px 0 !important;
+}
+
+#changelist-filter h2 {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    #header {
         flex-direction: column;
-        gap: 0.75rem;
-        padding: 1.25rem;
+        gap: 1rem;
         text-align: center;
     }
-
-    .malphite-copy h2 {
-        font-size: 1.25rem;
+    .admin-welcome-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #content {
+        padding: 1rem !important;
     }
 }

@@ -1,69 +1,109 @@
 from django import forms
-from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 from .models import contacto
-
+import re
 
 class ContactoForm(forms.ModelForm):
-    # EmailField already validates proper email format
-    correo = forms.EmailField(
+    nombre = forms.CharField(
+        max_length=100,
         required=True,
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'correo@example.com',
-        })
+        label="Nombre Completo",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control custom-input',
+            'placeholder': 'Ej. Juan Pérez González',
+            'autocomplete': 'name',
+        }),
+        error_messages={
+            'required': 'El nombre completo es obligatorio.',
+            'max_length': 'El nombre no puede superar los 100 caracteres.',
+        }
     )
 
     telefono = forms.IntegerField(
         required=True,
-        min_value=0,
+        label="Número de Teléfono",
+        min_value=1000000,
+        max_value=999999999999999,
         widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Número de teléfono',
-        })
+            'class': 'form-control custom-input',
+            'placeholder': 'Ej. 987654321',
+            'autocomplete': 'tel',
+        }),
+        error_messages={
+            'required': 'El teléfono es obligatorio.',
+            'invalid': 'Ingrese un número telefónico válido (solo números enteros).',
+            'min_value': 'El teléfono debe tener al menos 7 dígitos.',
+            'max_value': 'El teléfono no puede superar los 15 dígitos.',
+        }
     )
 
-    nombre = forms.CharField(
+    correo = forms.EmailField(
         max_length=100,
         required=True,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Nombre completo',
-        })
+        label="Correo Electrónico",
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control custom-input',
+            'placeholder': 'Ej. juan.perez@email.com',
+            'autocomplete': 'email',
+        }),
+        error_messages={
+            'required': 'El correo electrónico es obligatorio.',
+            'invalid': 'Por favor ingrese un correo con formato válido (ej: usuario@dominio.com).',
+            'max_length': 'El correo no puede superar los 100 caracteres.',
+        }
     )
 
     direccion = forms.CharField(
         max_length=100,
         required=True,
+        label="Dirección",
         widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Dirección',
-        })
+            'class': 'form-control custom-input',
+            'placeholder': 'Ej. Av. Providencia 1234, Depto 402',
+            'autocomplete': 'street-address',
+        }),
+        error_messages={
+            'required': 'La dirección es obligatoria.',
+            'max_length': 'La dirección no puede superar los 100 caracteres.',
+        }
     )
 
     class Meta:
         model = contacto
         fields = ['nombre', 'telefono', 'correo', 'direccion']
-        widgets = {
-            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-            'telefono': forms.NumberInput(attrs={'class': 'form-control'}),
-            'correo': forms.EmailInput(attrs={'class': 'form-control'}),
-            'direccion': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+
+    def clean_nombre(self):
+        nombre = self.cleaned_data.get('nombre', '').strip()
+        if not nombre:
+            raise ValidationError('El nombre no puede estar vacío.')
+        if len(nombre) < 2:
+            raise ValidationError('El nombre debe tener un mínimo de 2 caracteres.')
+        if not re.match(r"^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s\.\'-]+$", nombre):
+            raise ValidationError('El nombre solo debe contener letras, acentos y espacios.')
+        return nombre
 
     def clean_telefono(self):
         telefono = self.cleaned_data.get('telefono')
-        if telefono is None or telefono < 0:
-            raise forms.ValidationError('El número de teléfono debe ser positivo.')
+        if telefono is None or telefono <= 0:
+            raise ValidationError('Debe ingresar un número de teléfono positivo válido.')
+        tel_str = str(telefono)
+        if len(tel_str) < 7 or len(tel_str) > 15:
+            raise ValidationError('El teléfono debe tener entre 7 y 15 dígitos.')
         return telefono
 
-    def clean_nombre(self):
-        nombre = self.cleaned_data.get('nombre')
-        if not nombre or not nombre.strip():
-            raise forms.ValidationError('El nombre no puede estar vacío.')
-        return nombre
+    def clean_correo(self):
+        correo = self.cleaned_data.get('correo', '').strip().lower()
+        if not correo:
+            raise ValidationError('El correo electrónico es requerido.')
+        email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+        if not re.match(email_regex, correo):
+            raise ValidationError('El correo electrónico debe tener una estructura válida (ej. usuario@dominio.com).')
+        return correo
 
     def clean_direccion(self):
-        direccion = self.cleaned_data.get('direccion')
-        if not direccion or not direccion.strip():
-            raise forms.ValidationError('La dirección no puede estar vacía.')
+        direccion = self.cleaned_data.get('direccion', '').strip()
+        if not direccion:
+            raise ValidationError('La dirección no puede estar vacía.')
+        if len(direccion) < 3:
+            raise ValidationError('La dirección debe tener al menos 3 caracteres.')
         return direccion

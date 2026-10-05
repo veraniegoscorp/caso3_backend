@@ -1,22 +1,417 @@
-/* Custom admin CSS */
-/* Cambia el color de fondo del encabezado del admin */
+/* ==========================================================================
+   PANEL ADMIN CORPORATIVO Y ELEGANTE (CENTRADO Y PROFESIONAL)
+   ========================================================================== */
+
+:root {
+    --admin-primary: #1e293b;
+    --admin-secondary: #0f172a;
+    --admin-accent: #d4af37;
+    --admin-accent-hover: #b89628;
+    --admin-bg: #f8fafc;
+    --admin-card-bg: #ffffff;
+    --admin-border: #e2e8f0;
+    --admin-text: #1e293b;
+    --admin-text-muted: #64748b;
+    --admin-success: #10b981;
+    --admin-warning: #f59e0b;
+    --admin-danger: #ef4444;
+}
+
+/* Centrado global del Layout de Django Admin */
+body {
+    background-color: var(--admin-bg) !important;
+    color: var(--admin-text) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    background: transparent !important;
+    min-height: 100vh;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+}
+
+/* Header estilizado y centrado */
 #header {
-    background-color: #4a90e2 !important;
-    color: #fff;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+    color: #f8fafc !important;
+    padding: 1.25rem 2rem !important;
+    border-bottom: 3px solid var(--admin-accent) !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-/* Mejorar la tabla del listado */
-.module table thead th {
-    background-color: #f0f8ff !important;
-    color: #333;
-    font-weight: bold;
+
+#branding h1 {
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
-/* Resaltar filas al pasar el mouse */
-.module table tbody tr:hover {
-    background-color: #e6f7ff;
+
+#branding h1 a:link, 
+#branding h1 a:visited {
+    color: #ffffff !important;
+    text-decoration: none !important;
 }
-/* Botones más grandes */
-button, input[type=submit] {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
+
+#user-tools {
+    font-size: 0.88rem !important;
+    color: #cbd5e1 !important;
+}
+
+#user-tools a {
+    color: var(--admin-accent) !important;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
     border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+#user-tools a:hover {
+    background: rgba(212, 175, 55, 0.15);
+    color: #fff !important;
+}
+
+/* Breadcrumbs centradas y limpias */
+div.breadcrumbs {
+    background: #ffffff !important;
+    border-bottom: 1px solid var(--admin-border) !important;
+    padding: 0.85rem 2rem !important;
+    font-size: 0.88rem !important;
+    color: var(--admin-text-muted) !important;
+}
+
+div.breadcrumbs a {
+    color: #2563eb !important;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* Contenedor de contenido centrado */
+#content {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding: 2rem !important;
+    background: transparent !important;
+}
+
+/* Banner de Bienvenida Profesional (Reemplaza a Malphite) */
+.admin-welcome-card {
+    background: #ffffff;
+    border: 1px solid var(--admin-border);
+    border-top: 4px solid var(--admin-accent);
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.welcome-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.welcome-icon {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    width: 65px;
+    height: 65px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-badge {
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    margin-bottom: 0.35rem;
+}
+
+.welcome-text h2 {
+    margin: 0 0 0.3rem 0 !important;
+    font-size: 1.45rem !important;
+    font-weight: 700 !important;
+    color: var(--admin-secondary) !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.welcome-text p {
+    margin: 0;
+    color: var(--admin-text-muted);
+    font-size: 0.95rem;
+}
+
+.welcome-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.btn-executive {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-executive-gold {
+    background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.btn-executive-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+
+.btn-executive-dark {
+    background: #1e293b;
+    color: #ffffff !important;
+    border: 1px solid #334155;
+}
+
+.btn-executive-dark:hover {
+    background: #0f172a;
+    transform: translateY(-2px);
+}
+
+/* Tarjetas y Módulos Profesionales */
+.module {
+    background: #ffffff !important;
+    border: 1px solid var(--admin-border) !important;
+    border-radius: 10px !important;
+    margin-bottom: 1.75rem !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+    overflow: hidden !important;
+}
+
+.module caption,
+.module h2,
+.module h3 {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
+    font-size: 0.98rem !important;
+    padding: 0.85rem 1.25rem !important;
+    border-bottom: 1px solid var(--admin-border) !important;
+}
+
+/* Tablas con estilo corporativo y espaciado */
+.module table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
+}
+
+.module table thead th {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+    padding: 0.85rem 1rem !important;
+    border-bottom: 2px solid var(--admin-border) !important;
+}
+
+.module table tbody td,
+.module table tbody th {
+    padding: 0.85rem 1rem !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    color: #1e293b !important;
+    font-size: 0.92rem !important;
+}
+
+.module table tbody tr:hover {
+    background-color: #f8fafc !important;
+}
+
+/* Mensajes de Feedback de Interfaz (Alerts) */
+ul.messagelist {
+    margin: 0 0 1.5rem 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+ul.messagelist li {
+    padding: 0.9rem 1.25rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.75rem !important;
+    font-size: 0.92rem !important;
+    font-weight: 500 !important;
+    display: flex !important;
+    align-items: center !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+ul.messagelist li.success {
+    background: #ecfdf5 !important;
+    color: #065f46 !important;
+    border: 1px solid #a7f3d0 !important;
+    border-left: 5px solid #10b981 !important;
+}
+
+ul.messagelist li.warning {
+    background: #fffbeb !important;
+    color: #92400e !important;
+    border: 1px solid #fde68a !important;
+    border-left: 5px solid #f59e0b !important;
+}
+
+ul.messagelist li.error {
+    background: #fef2f2 !important;
+    color: #991b1b !important;
+    border: 1px solid #fecaca !important;
+    border-left: 5px solid #ef4444 !important;
+}
+
+/* Botones e Inputs del Admin */
+.button, 
+input[type=submit], 
+input[type=button], 
+.submit-row input, 
+a.button {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    border: 1px solid #334155 !important;
+    border-radius: 6px !important;
+    padding: 0.6rem 1.2rem !important;
+    font-weight: 600 !important;
+    font-size: 0.88rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.button:hover, 
+input[type=submit]:hover, 
+input[type=button]:hover, 
+.submit-row input:hover, 
+a.button:hover {
+    background: #0f172a !important;
+    border-color: #0f172a !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.15);
+}
+
+.button.default, 
+input[type=submit].default, 
+.submit-row input.default {
+    background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+
+.button.default:hover, 
+input[type=submit].default:hover, 
+.submit-row input.default:hover {
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+/* Paginador centrado y estilizado */
+.paginator {
+    background: #ffffff !important;
+    border: 1px solid var(--admin-border) !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 1.25rem !important;
+    margin-top: 1rem !important;
+    font-size: 0.88rem !important;
+    color: var(--admin-text-muted) !important;
+}
+
+.paginator a:link, 
+.paginator a:visited {
+    color: #2563eb !important;
+    font-weight: 600 !important;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+.paginator .this-page {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    padding: 0.25rem 0.6rem !important;
+    border-radius: 4px !important;
+    font-weight: 700 !important;
+}
+
+/* Barra de Búsqueda y Filtros */
+#toolbar {
+    background: #ffffff !important;
+    border: 1px solid var(--admin-border) !important;
+    border-radius: 8px !important;
+    padding: 0.85rem 1.25rem !important;
+    margin-bottom: 1.25rem !important;
+}
+
+#changelist-search input[type="text"] {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 0.5rem 0.85rem !important;
+    font-size: 0.9rem !important;
+    width: 280px !important;
+}
+
+#changelist-search input[type="text"]:focus {
+    border-color: var(--admin-accent) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Barra de Filtros Lateral */
+#changelist-filter {
+    background: #ffffff !important;
+    border-left: 1px solid var(--admin-border) !important;
+    border-radius: 0 8px 8px 0 !important;
+}
+
+#changelist-filter h2 {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    #header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    .admin-welcome-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #content {
+        padding: 1rem !important;
+    }
 }

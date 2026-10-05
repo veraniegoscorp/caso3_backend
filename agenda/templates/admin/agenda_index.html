@@ -13,17 +13,24 @@
 {% block nav-sidebar %}{% endblock %}
 
 {% block content %}
-    <section class="malphite-welcome" aria-label="Malphite en WhatsApp">
-        <div class="malphite-art">
-            <img src="https://ddragon.leagueoflegends.com/cdn/15.10.1/img/champion/Malphite.png" alt="Retrato de Malphite">
-            <span class="whatsapp-mark" aria-label="WhatsApp">&#9742;</span>
+    <!-- Banner Principal Profesional y Centrado -->
+    <section class="admin-welcome-card" aria-label="Bienvenida al Panel">
+        <div class="welcome-header">
+            <div class="welcome-icon">
+                <span style="font-size: 2.2rem;">🏛️</span>
+            </div>
+            <div class="welcome-text">
+                <span class="welcome-badge">SISTEMA ACTIVO</span>
+                <h2>Panel de Administración y Control</h2>
+                <p>Gestiona, valida y exporta los registros de la agenda corporativa con control total de datos.</p>
+            </div>
         </div>
-        <div class="malphite-copy">
-            <p class="malphite-status">En línea ahora</p>
-            <h2>Malphite está en el chat</h2>
-            <p>Panel de contactos listo para gestionar.</p>
+        <div class="welcome-actions">
+            <a href="/admin/agenda/contacto/add/" class="btn-executive btn-executive-gold">➕ Nuevo Contacto</a>
+            <a href="/" class="btn-executive btn-executive-dark" target="_blank">🌐 Ver Sitio Web (Dark/Gold)</a>
         </div>
     </section>
+
     <div id="content-main" class="app-list">
         {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
     </div>
@@ -36,7 +43,7 @@
             <h3>{% translate 'My actions' %}</h3>
             {% get_admin_log 10 as admin_log for_user user %}
             {% if not admin_log %}
-                <p>{% translate 'None available' %}</p>
+                <p style="padding: 1rem; color: #64748b;">{% translate 'None available' %}</p>
             {% else %}
                 <ul class="actionlist">
                     {% for entry in admin_log %}

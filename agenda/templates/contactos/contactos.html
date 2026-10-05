@@ -4,62 +4,747 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de contactos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
+    <title>Agenda VIP – Gestión Ejecutiva de Contactos</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark-primary: #0a0d14;
+            --bg-dark-secondary: #121722;
+            --bg-dark-card: #181f2e;
+            --bg-dark-input: #0e131d;
+            
+            --gold-light: #fef08a;
+            --gold-primary: #d4af37;
+            --gold-accent: #f59e0b;
+            --gold-dark: #a17711;
+            --gold-gradient: linear-gradient(135deg, #f3d477 0%, #d4af37 50%, #9a7214 100%);
+            --gold-glow: 0 0 25px rgba(212, 175, 55, 0.25);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-gold: #f3d477;
+            
+            --border-gold: rgba(212, 175, 55, 0.3);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--bg-dark-primary);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.04) 0%, transparent 40%);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            padding-bottom: 3rem;
+        }
+
+        /* Navbar Oscuro y Dorado */
+        .vip-navbar {
+            background: rgba(18, 23, 34, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-gold);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .vip-brand {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .vip-brand i {
+            color: var(--gold-primary);
+            -webkit-text-fill-color: initial;
+        }
+
+        /* Tarjetas con estilo Gold & Dark */
+        .gold-card {
+            background: var(--bg-dark-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .gold-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gold-gradient);
+        }
+
+        .gold-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .gold-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Métricas y Stats */
+        .stat-badge {
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid var(--border-gold);
+            color: var(--gold-light);
+            padding: 0.4rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Inputs y Formularios Oscuros */
+        .form-label {
+            color: var(--text-gold);
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .custom-input, 
+        .form-control {
+            background-color: var(--bg-dark-input) !important;
+            border: 1px solid var(--border-subtle) !important;
+            color: #ffffff !important;
+            border-radius: 10px !important;
+            padding: 0.75rem 1rem !important;
+            font-size: 0.92rem !important;
+            transition: all 0.25s ease !important;
+        }
+
+        .custom-input:focus,
+        .form-control:focus {
+            border-color: var(--gold-primary) !important;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2) !important;
+            background-color: #121824 !important;
+        }
+
+        .custom-input::placeholder,
+        .form-control::placeholder {
+            color: #526077 !important;
+        }
+
+        /* Botones Dorados y Oscuros */
+        .btn-gold {
+            background: var(--gold-gradient);
+            color: #0b0e14 !important;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.4rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: all 0.25s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45);
+            background: linear-gradient(135deg, #fef08a 0%, #d4af37 50%, #b8860b 100%);
+        }
+
+        .btn-dark-outline {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-gold);
+            color: var(--gold-light) !important;
+            border-radius: 10px;
+            padding: 0.75rem 1.25rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-dark-outline:hover {
+            background: rgba(212, 175, 55, 0.15);
+            color: #ffffff !important;
+            border-color: var(--gold-primary);
+        }
+
+        .btn-danger-custom {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5 !important;
+            border-radius: 8px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.82rem;
+            transition: all 0.2s;
+        }
+
+        .btn-danger-custom:hover {
+            background: #ef4444;
+            color: #ffffff !important;
+        }
+
+        /* Tabla Ejecutiva Oscura & Dorada */
+        .vip-table-wrapper {
+            border: 1px solid var(--border-gold);
+            border-radius: 14px;
+            overflow: hidden;
+            background: var(--bg-dark-card);
+        }
+
+        .vip-table {
+            width: 100%;
+            margin: 0;
+            color: var(--text-primary);
+            border-collapse: collapse;
+        }
+
+        .vip-table thead {
+            background: rgba(10, 13, 20, 0.95);
+            border-bottom: 2px solid var(--border-gold);
+        }
+
+        .vip-table th {
+            color: var(--gold-light);
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 1.1rem 1rem;
+            border: none;
+        }
+
+        .vip-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+            vertical-align: middle;
+            font-size: 0.92rem;
+            background: transparent;
+        }
+
+        .vip-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .vip-table tbody tr:hover {
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+
+        /* Avatar de Contacto */
+        .contact-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e2638 0%, #2b364e 100%);
+            border: 1.5px solid var(--border-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--gold-light);
+            font-size: 1rem;
+        }
+
+        /* Mensajes de Feedback */
+        .custom-alert {
+            background: rgba(18, 23, 34, 0.95);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .custom-alert-success {
+            border: 1px solid #10b981;
+            border-left: 5px solid #10b981;
+            color: #6ee7b7;
+        }
+
+        .custom-alert-error, .custom-alert-danger {
+            border: 1px solid #ef4444;
+            border-left: 5px solid #ef4444;
+            color: #fca5a5;
+        }
+
+        .custom-alert-warning {
+            border: 1px solid var(--gold-primary);
+            border-left: 5px solid var(--gold-primary);
+            color: var(--gold-light);
+        }
+
+        /* Paginación Dark & Gold */
+        .gold-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-top: 1.75rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        .gold-pagination a,
+        .gold-pagination span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            padding: 0 0.6rem;
+            border-radius: 8px;
+            background: var(--bg-dark-card);
+            border: 1px solid var(--border-gold);
+            color: var(--gold-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+        }
+
+        .gold-pagination a:hover {
+            background: var(--gold-primary);
+            color: #0b0e14;
+            transform: translateY(-2px);
+        }
+
+        .gold-pagination .active span {
+            background: var(--gold-gradient);
+            color: #0b0e14;
+            border-color: transparent;
+            box-shadow: var(--gold-glow);
+        }
+
+        .gold-pagination .disabled span {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: var(--border-subtle);
+        }
+
+        .validation-error-text {
+            color: #fca5a5;
+            font-size: 0.82rem;
+            margin-top: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* Modal Dark Gold */
+        .modal-content.dark-modal {
+            background: var(--bg-dark-card);
+            border: 1px solid var(--border-gold);
+            color: var(--text-primary);
+            border-radius: 16px;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--border-subtle);
+        }
+    </style>
 </head>
 
 <body>
-<div class="container mt-4">
-    <h1 class="mb-4">Contactos</h1>
 
-    <!-- Search form -->
-    <form method="get" class="row g-3 mb-3">
-        <div class="col-auto">
-            <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Buscar por nombre o correo">
+    <!-- Navegación Superior -->
+    <nav class="vip-navbar mb-4">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="/" class="vip-brand">
+                <i class="fa-solid fa-crown"></i> AGENDA VIP
+            </a>
+            <div class="d-flex gap-2 align-items-center">
+                <a href="/admin/" class="btn-dark-outline" target="_blank">
+                    <i class="fa-solid fa-sliders"></i> Panel Admin
+                </a>
+                <a href="{% url 'exportar_contactos_csv' %}{% if q %}?q={{ q }}{% endif %}" class="btn-gold">
+                    <i class="fa-solid fa-file-csv"></i> Exportar CSV
+                </a>
+            </div>
         </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- Mensajes de Feedback (Django Messages) -->
+        {% if messages %}
+            <div class="row">
+                <div class="col-12">
+                    {% for message in messages %}
+                        <div class="custom-alert {% if message.tags == 'success' %}custom-alert-success{% elif message.tags == 'warning' %}custom-alert-warning{% else %}custom-alert-error{% endif %} alert-dismissible fade show" role="alert">
+                            <div class="d-flex align-items-center gap-2">
+                                {% if message.tags == 'success' %}
+                                    <i class="fa-solid fa-circle-check fs-5"></i>
+                                {% elif message.tags == 'warning' %}
+                                    <i class="fa-solid fa-triangle-exclamation fs-5"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-circle-exclamation fs-5"></i>
+                                {% endif %}
+                                <span>{{ message }}</span>
+                            </div>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Panel de Estadísticas / Resumen -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="gold-card p-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-secondary small text-uppercase">Total Contactos</span>
+                        <h3 class="mb-0 text-gold fw-bold mt-1">{{ total_contactos }}</h3>
+                    </div>
+                    <div class="contact-avatar">
+                        <i class="fa-solid fa-users text-gold"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gold-card p-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-secondary small text-uppercase">Registros Filtrados</span>
+                        <h3 class="mb-0 text-light fw-bold mt-1">{{ total_filtrados }}</h3>
+                    </div>
+                    <div class="contact-avatar">
+                        <i class="fa-solid fa-filter text-gold"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gold-card p-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-secondary small text-uppercase">Estado del Sistema</span>
+                        <h4 class="mb-0 text-success fw-bold mt-1"><i class="fa-solid fa-shield-halved"></i> 100% Validado</h4>
+                    </div>
+                    <div class="contact-avatar">
+                        <i class="fa-solid fa-gem text-gold"></i>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
 
-    <!-- Add contact form -->
-    <form method="post" class="row g-3">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        {{ form.as_p }}
-        <div class="col-12">
-            <button type="submit" class="btn btn-success">Agregar contacto</button>
+        <div class="row g-4">
+            
+            <!-- Columna Izquierda: Formulario de Registro con Validación Mejorada -->
+            <div class="col-lg-5">
+                <div class="gold-card">
+                    <div class="gold-card-header">
+                        <h2 class="gold-title">
+                            <i class="fa-solid fa-user-plus text-gold"></i> Nuevo Contacto
+                        </h2>
+                        <span class="stat-badge"><i class="fa-solid fa-lock"></i> Seguro</span>
+                    </div>
+
+                    <form method="post" action="{% url 'mostrar_agenda' %}" novalidate id="contactForm">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger p-2 mb-3 small">
+                                {% for error in form.non_field_errors %}
+                                    <p class="mb-0"><i class="fa-solid fa-circle-exclamation"></i> {{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <!-- Campo Nombre -->
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.nombre.id_for_label }}">
+                                <i class="fa-solid fa-user text-gold"></i> {{ form.nombre.label }}
+                            </label>
+                            {{ form.nombre }}
+                            {% if form.nombre.errors %}
+                                <div class="validation-error-text">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> {{ form.nombre.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo Teléfono -->
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.telefono.id_for_label }}">
+                                <i class="fa-solid fa-phone text-gold"></i> {{ form.telefono.label }}
+                            </label>
+                            {{ form.telefono }}
+                            {% if form.telefono.errors %}
+                                <div class="validation-error-text">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> {{ form.telefono.errors.0 }}
+                                </div>
+                            {% else %}
+                                <small class="text-secondary" style="font-size: 0.76rem;">Mínimo 7 dígitos numéricos.</small>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo Correo -->
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.correo.id_for_label }}">
+                                <i class="fa-solid fa-envelope text-gold"></i> {{ form.correo.label }}
+                            </label>
+                            {{ form.correo }}
+                            {% if form.correo.errors %}
+                                <div class="validation-error-text">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> {{ form.correo.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo Dirección -->
+                        <div class="mb-4">
+                            <label class="form-label" for="{{ form.direccion.id_for_label }}">
+                                <i class="fa-solid fa-location-dot text-gold"></i> {{ form.direccion.label }}
+                            </label>
+                            {{ form.direccion }}
+                            {% if form.direccion.errors %}
+                                <div class="validation-error-text">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> {{ form.direccion.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Botón Guardar -->
+                        <button type="submit" class="btn-gold w-100 py-3">
+                            <i class="fa-solid fa-floppy-disk"></i> Registrar Contacto VIP
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Búsqueda y Listado con Paginación -->
+            <div class="col-lg-7">
+                
+                <!-- Buscador Ejecutivo -->
+                <div class="gold-card mb-4 p-3">
+                    <form method="get" class="row g-2 align-items-center">
+                        <div class="col">
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-0 text-gold ps-3">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </span>
+                                <input type="text" name="q" value="{{ q }}" class="form-control custom-input border-0 ps-2" placeholder="Buscar por nombre, correo, teléfono o dirección...">
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn-gold py-2 px-3">
+                                Buscar
+                            </button>
+                        </div>
+                        {% if q %}
+                            <div class="col-auto">
+                                <a href="{% url 'mostrar_agenda' %}" class="btn-dark-outline py-2 px-3" title="Limpiar filtro">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+
+                <!-- Tabla de Contactos -->
+                <div class="vip-table-wrapper">
+                    <table class="vip-table">
+                        <thead>
+                            <tr>
+                                <th>Contacto</th>
+                                <th>Teléfono</th>
+                                <th>Correo</th>
+                                <th>Dirección</th>
+                                <th class="text-end">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contacto in contactos %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="contact-avatar" style="width: 34px; height: 34px; font-size: 0.85rem;">
+                                                {{ contacto.nombre|slice:":1"|upper }}
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold text-light">{{ contacto.nombre }}</div>
+                                                <small class="text-secondary" style="font-size: 0.75rem;">ID #{{ contacto.id }}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="text-gold"><i class="fa-solid fa-phone me-1 small"></i>{{ contacto.telefono }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-light"><i class="fa-regular fa-envelope me-1 small text-secondary"></i>{{ contacto.correo }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-secondary small">{{ contacto.direccion }}</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <!-- Botón Eliminar con Modal -->
+                                        <button type="button" class="btn-danger-custom" data-bs-toggle="modal" data-bs-target="#deleteModal{{ contacto.id }}" title="Eliminar Contacto">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+
+                                        <!-- Modal de Confirmación de Eliminación -->
+                                        <div class="modal fade" id="deleteModal{{ contacto.id }}" tabindex="-1" aria-labelledby="modalLabel{{ contacto.id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content dark-modal">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title gold-title" id="modalLabel{{ contacto.id }}">
+                                                            <i class="fa-solid fa-triangle-exclamation text-warning"></i> Confirmar Eliminación
+                                                        </h5>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body text-start py-4">
+                                                        <p class="mb-1 text-light">¿Estás seguro de que deseas eliminar permanentemente a este contacto?</p>
+                                                        <div class="p-3 mt-3 rounded" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold);">
+                                                            <strong class="text-gold">{{ contacto.nombre }}</strong><br>
+                                                            <span class="text-secondary small">{{ contacto.correo }} | {{ contacto.telefono }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn-dark-outline" data-bs-dismiss="modal">Cancelar</button>
+                                                        <form method="post" action="{% url 'eliminar_contacto' contacto.id %}" class="d-inline">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-danger px-3 py-2" style="border-radius: 8px;">
+                                                                <i class="fa-solid fa-trash"></i> Eliminar Registro
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-5">
+                                        <div class="text-secondary">
+                                            <i class="fa-solid fa-address-book fs-1 mb-3 text-gold opacity-50"></i>
+                                            <p class="mb-1 fw-semibold text-light">No se encontraron contactos registrados.</p>
+                                            <small>Comienza agregando uno nuevo desde el formulario izquierdo.</small>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginación de Resultados -->
+                {% if page_obj.has_other_pages %}
+                    <nav aria-label="Navegación de contactos">
+                        <ul class="gold-pagination">
+                            {% if page_obj.has_previous %}
+                                <li>
+                                    <a href="?page=1{% if q %}&q={{ q }}{% endif %}" title="Primera página">
+                                        <i class="fa-solid fa-angles-left"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}" title="Anterior">
+                                        <i class="fa-solid fa-angle-left"></i>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="disabled"><span><i class="fa-solid fa-angles-left"></i></span></li>
+                                <li class="disabled"><span><i class="fa-solid fa-angle-left"></i></span></li>
+                            {% endif %}
+
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <li class="active"><span>{{ num }}</span></li>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <li>
+                                        <a href="?page={{ num }}{% if q %}&q={{ q }}{% endif %}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li>
+                                    <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}" title="Siguiente">
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="?page={{ page_obj.paginator.num_pages }}{% if q %}&q={{ q }}{% endif %}" title="Última página">
+                                        <i class="fa-solid fa-angles-right"></i>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="disabled"><span><i class="fa-solid fa-angle-right"></i></span></li>
+                                <li class="disabled"><span><i class="fa-solid fa-angles-right"></i></span></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    <div class="text-center text-secondary small mt-2">
+                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }} ({{ total_filtrados }} contactos en total)
+                    </div>
+                {% endif %}
+
+            </div>
+
         </div>
-    </form>
 
-    <!-- Contacts list -->
-    <table class="table table-striped mt-4">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Teléfono</th>
-                <th>Correo</th>
-                <th>Dirección</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for contacto in contactos %}
-                <tr>
-                    <td>{{ contacto.nombre }}</td>
-                    <td>{{ contacto.telefono }}</td>
-                    <td>{{ contacto.correo }}</td>
-                    <td>{{ contacto.direccion }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4" class="text-center">No hay contactos.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script de Validación en Tiempo Real (Feedback visual) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('contactForm');
+            const inputs = form.querySelectorAll('.custom-input');
+
+            inputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    if (this.value.trim() !== '') {
+                        this.style.borderColor = '#d4af37';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
