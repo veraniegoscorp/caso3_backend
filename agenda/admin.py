@@ -1,3 +1,4 @@
+import io
 import csv
 from django.contrib import admin, messages
 from django.http import HttpResponse
@@ -15,19 +16,15 @@ admin.site.index_template = "admin/agenda_index.html"
 @admin.action(description="📥 Exportar contactos seleccionados a archivo CSV")
 def exportar_contactos_a_csv(modeladmin, request, queryset):
     """
-    Acción de Django Admin para exportar registros seleccionados a CSV perfectamente separado en columnas en Excel.
-    Incluye BOM UTF-8 y la directiva 'sep=;' para forzar la separación automática en casillas en cualquier versión de Excel.
+    Exportación de registros a CSV optimizada para Microsoft Excel.
+    Usa codificación utf-8-sig (BOM nativo) y delimitador ';' para que cada campo
+    se posicione en su casilla correspondiente sin caracteres corruptos ni cabeceras extrañas.
     """
     try:
-        response = HttpResponse(content_type='text/csv; charset=utf-8-sig')
-        response['Content-Disposition'] = 'attachment; filename="contactos_exportados_admin.csv"'
+        buffer = io.StringIO()
+        writer = csv.writer(buffer, delimiter=';', quoting=csv.QUOTE_MINIMAL)
         
-        # 1. UTF-8 BOM (reconocimiento de tildes y caracteres especiales)
-        response.write('\ufeff'.encode('utf-8'))
-        # 2. Directiva para Excel: fuerza a separar en columnas inmediatamente
-        response.write('sep=;\r\n'.encode('utf-8'))
-
-        writer = csv.writer(response, delimiter=';', dialect='excel', quoting=csv.QUOTE_MINIMAL)
+        # Encabezados limpios
         writer.writerow(['ID', 'Nombre Completo', 'Teléfono', 'Correo Electrónico', 'Dirección'])
 
         count = 0
@@ -41,7 +38,13 @@ def exportar_contactos_a_csv(modeladmin, request, queryset):
             ])
             count += 1
 
-        messages.success(request, f'✅ ¡Exportación exitosa! Se han exportado {count} contacto(s) en columnas separadas para Excel.')
+        # Codificar en utf-8-sig (garantiza compatibilidad nativa con Excel)
+        csv_bytes = buffer.getvalue().encode('utf-8-sig')
+        
+        response = HttpResponse(csv_bytes, content_type='text/csv; charset=utf-8')
+        response['Content-Disposition'] = 'attachment; filename="contactos_exportados_admin.csv"'
+
+        messages.success(request, f'✅ ¡Exportación exitosa! Se han exportado {count} contacto(s) en columnas limpias para Excel.')
         return response
     except Exception as ex:
         messages.error(request, f'❌ Error al generar la exportación CSV: {str(ex)}')
