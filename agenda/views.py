@@ -88,7 +88,7 @@ def eliminar_contacto(request, pk):
 
 def exportar_contactos_csv(request):
     """
-    Exporta el listado completo o filtrado de contactos a un archivo CSV con UTF-8 BOM.
+    Exporta el listado completo o filtrado de contactos a un archivo CSV en casillas individuales con UTF-8 BOM.
     """
     q = request.GET.get('q', '').strip()
     if q:
@@ -104,12 +104,18 @@ def exportar_contactos_csv(request):
     response = HttpResponse(content_type='text/csv; charset=utf-8')
     response['Content-Disposition'] = 'attachment; filename="contactos_agenda.csv"'
 
-    # Escribir BOM para correcta apertura en Excel
+    # Escribir BOM para correcta apertura en Excel en columnas separadas
     response.write('\ufeff'.encode('utf-8'))
-    writer = csv.writer(response, delimiter=';')
+    writer = csv.writer(response, delimiter=',', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(['ID', 'Nombre Completo', 'Teléfono', 'Correo Electrónico', 'Dirección'])
 
     for c in contactos_qs:
-        writer.writerow([c.id, c.nombre, c.telefono, c.correo, c.direccion])
+        writer.writerow([
+            c.id, 
+            str(c.nombre).strip(), 
+            str(c.telefono).strip(), 
+            str(c.correo).strip(), 
+            str(c.direccion).strip()
+        ])
 
     return response

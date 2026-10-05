@@ -15,22 +15,28 @@ admin.site.index_template = "admin/agenda_index.html"
 @admin.action(description="📥 Exportar contactos seleccionados a archivo CSV")
 def exportar_contactos_a_csv(modeladmin, request, queryset):
     """
-    Acción de Django Admin para exportar registros seleccionados a CSV con soporte Excel (UTF-8 BOM).
+    Acción de Django Admin para exportar registros seleccionados a CSV en casillas separadas (RFC 4180 / Excel UTF-8 BOM).
     """
     try:
         response = HttpResponse(content_type='text/csv; charset=utf-8')
         response['Content-Disposition'] = 'attachment; filename="contactos_exportados_admin.csv"'
-        response.write('\ufeff'.encode('utf-8')) # BOM UTF-8
+        response.write('\ufeff'.encode('utf-8')) # BOM UTF-8 para apertura directa en Excel
 
-        writer = csv.writer(response, delimiter=';')
+        writer = csv.writer(response, delimiter=',', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(['ID', 'Nombre Completo', 'Teléfono', 'Correo Electrónico', 'Dirección'])
 
         count = 0
         for obj in queryset:
-            writer.writerow([obj.id, obj.nombre, obj.telefono, obj.correo, obj.direccion])
+            writer.writerow([
+                obj.id, 
+                str(obj.nombre).strip(), 
+                str(obj.telefono).strip(), 
+                str(obj.correo).strip(), 
+                str(obj.direccion).strip()
+            ])
             count += 1
 
-        messages.success(request, f'✅ ¡Exportación exitosa! Se han exportado {count} contacto(s) a CSV.')
+        messages.success(request, f'✅ ¡Exportación exitosa! Se han exportado {count} contacto(s) en casillas separadas a CSV.')
         return response
     except Exception as ex:
         messages.error(request, f'❌ Error al generar la exportación CSV: {str(ex)}')

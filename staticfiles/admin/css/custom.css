@@ -1,45 +1,54 @@
 /* ==========================================================================
-   PANEL ADMIN CORPORATIVO Y ELEGANTE (CENTRADO Y PROFESIONAL)
+   PANEL ADMIN CORPORATIVO - TEMA GRIS OSCURO & CENTRADO
    ========================================================================== */
 
 :root {
-    --admin-primary: #1e293b;
-    --admin-secondary: #0f172a;
-    --admin-accent: #d4af37;
-    --admin-accent-hover: #b89628;
-    --admin-bg: #f8fafc;
-    --admin-card-bg: #ffffff;
-    --admin-border: #e2e8f0;
-    --admin-text: #1e293b;
-    --admin-text-muted: #64748b;
+    --admin-bg-dark: #12151b;
+    --admin-surface-dark: #1a1f29;
+    --admin-card-dark: #202734;
+    --admin-input-dark: #141821;
+    --admin-border-dark: #2e3748;
+    
+    --admin-gold: #d4af37;
+    --admin-gold-hover: #b89628;
+    --admin-gold-light: #fef08a;
+    
+    --admin-text-light: #f1f5f9;
+    --admin-text-muted: #94a3b8;
+    --admin-text-gold: #f3d477;
+    
     --admin-success: #10b981;
     --admin-warning: #f59e0b;
     --admin-danger: #ef4444;
 }
 
-/* Centrado global del Layout de Django Admin */
+/* Centrado global del Layout y Fondo Gris Oscuro */
+html,
 body {
-    background-color: var(--admin-bg) !important;
-    color: var(--admin-text) !important;
+    background-color: var(--admin-bg-dark) !important;
+    color: var(--admin-text-light) !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
 }
 
 #container {
     max-width: 1280px !important;
     margin: 0 auto !important;
-    background: transparent !important;
+    background-color: var(--admin-surface-dark) !important;
     min-height: 100vh;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+    border-left: 1px solid var(--admin-border-dark);
+    border-right: 1px solid var(--admin-border-dark);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
 }
 
-/* Header estilizado y centrado */
+/* Header estilizado en gris oscuro con acento dorado */
 #header {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+    background: linear-gradient(135deg, #0f1218 0%, #1a1f29 100%) !important;
     color: #f8fafc !important;
     padding: 1.25rem 2rem !important;
-    border-bottom: 3px solid var(--admin-accent) !important;
+    border-bottom: 3px solid var(--admin-gold) !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,7 +57,7 @@ body {
 #branding h1 {
     font-size: 1.4rem !important;
     font-weight: 700 !important;
-    color: #ffffff !important;
+    color: var(--admin-gold-light) !important;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -56,7 +65,7 @@ body {
 
 #branding h1 a:link, 
 #branding h1 a:visited {
-    color: #ffffff !important;
+    color: var(--admin-gold-light) !important;
     text-decoration: none !important;
 }
 
@@ -66,7 +75,7 @@ body {
 }
 
 #user-tools a {
-    color: var(--admin-accent) !important;
+    color: var(--admin-gold) !important;
     font-weight: 600;
     text-decoration: none;
     padding: 0.25rem 0.5rem;
@@ -79,19 +88,23 @@ body {
     color: #fff !important;
 }
 
-/* Breadcrumbs centradas y limpias */
+/* Breadcrumbs oscuras y centradas */
 div.breadcrumbs {
-    background: #ffffff !important;
-    border-bottom: 1px solid var(--admin-border) !important;
+    background: #151922 !important;
+    border-bottom: 1px solid var(--admin-border-dark) !important;
     padding: 0.85rem 2rem !important;
     font-size: 0.88rem !important;
     color: var(--admin-text-muted) !important;
 }
 
 div.breadcrumbs a {
-    color: #2563eb !important;
+    color: var(--admin-gold-light) !important;
     font-weight: 500;
     text-decoration: none;
+}
+
+div.breadcrumbs a:hover {
+    text-decoration: underline;
 }
 
 /* Contenedor de contenido centrado */
@@ -99,18 +112,19 @@ div.breadcrumbs a {
     max-width: 1280px !important;
     margin: 0 auto !important;
     padding: 2rem !important;
-    background: transparent !important;
+    background-color: var(--admin-surface-dark) !important;
+    color: var(--admin-text-light) !important;
 }
 
-/* Banner de Bienvenida Profesional (Reemplaza a Malphite) */
+/* Banner de Bienvenida Ejecutivo (Dark Gray & Gold) */
 .admin-welcome-card {
-    background: #ffffff;
-    border: 1px solid var(--admin-border);
-    border-top: 4px solid var(--admin-accent);
+    background: var(--admin-card-dark);
+    border: 1px solid var(--admin-border-dark);
+    border-top: 4px solid var(--admin-gold);
     border-radius: 12px;
     padding: 1.75rem 2rem;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -125,8 +139,8 @@ div.breadcrumbs a {
 }
 
 .welcome-icon {
-    background: #f8fafc;
-    border: 2px solid #e2e8f0;
+    background: var(--admin-input-dark);
+    border: 1px solid var(--admin-border-dark);
     width: 65px;
     height: 65px;
     border-radius: 14px;
@@ -136,8 +150,9 @@ div.breadcrumbs a {
 }
 
 .welcome-badge {
-    background: #dcfce7;
-    color: #15803d;
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--admin-gold-light);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     font-size: 0.72rem;
     font-weight: 700;
     padding: 0.2rem 0.6rem;
@@ -151,7 +166,7 @@ div.breadcrumbs a {
     margin: 0 0 0.3rem 0 !important;
     font-size: 1.45rem !important;
     font-weight: 700 !important;
-    color: var(--admin-secondary) !important;
+    color: var(--admin-text-light) !important;
     background: transparent !important;
     padding: 0 !important;
 }
@@ -181,76 +196,127 @@ div.breadcrumbs a {
 }
 
 .btn-executive-gold {
-    background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
-    color: #ffffff !important;
+    background: linear-gradient(135deg, #fef08a 0%, #d4af37 50%, #9a7214 100%);
+    color: #0b0e14 !important;
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 .btn-executive-gold:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.45);
 }
 
 .btn-executive-dark {
-    background: #1e293b;
-    color: #ffffff !important;
-    border: 1px solid #334155;
+    background: var(--admin-card-dark);
+    color: var(--admin-gold-light) !important;
+    border: 1px solid var(--admin-border-dark);
 }
 
 .btn-executive-dark:hover {
-    background: #0f172a;
+    background: #2b3445;
     transform: translateY(-2px);
 }
 
-/* Tarjetas y Módulos Profesionales */
+/* Tarjetas y Módulos en Gris Oscuro */
 .module {
-    background: #ffffff !important;
-    border: 1px solid var(--admin-border) !important;
+    background: var(--admin-card-dark) !important;
+    border: 1px solid var(--admin-border-dark) !important;
     border-radius: 10px !important;
     margin-bottom: 1.75rem !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
     overflow: hidden !important;
 }
 
 .module caption,
 .module h2,
 .module h3 {
-    background: #f1f5f9 !important;
-    color: #0f172a !important;
+    background: #151a23 !important;
+    color: var(--admin-gold-light) !important;
     font-weight: 700 !important;
     font-size: 0.98rem !important;
     padding: 0.85rem 1.25rem !important;
-    border-bottom: 1px solid var(--admin-border) !important;
+    border-bottom: 1px solid var(--admin-border-dark) !important;
 }
 
-/* Tablas con estilo corporativo y espaciado */
+/* Tablas con fondo oscuro */
 .module table {
     border-collapse: separate !important;
     border-spacing: 0 !important;
     width: 100% !important;
+    background: var(--admin-card-dark) !important;
 }
 
 .module table thead th {
-    background: #f8fafc !important;
-    color: #475569 !important;
+    background: #141821 !important;
+    color: var(--admin-gold-light) !important;
     font-weight: 600 !important;
     font-size: 0.85rem !important;
     text-transform: uppercase !important;
     letter-spacing: 0.03em !important;
     padding: 0.85rem 1rem !important;
-    border-bottom: 2px solid var(--admin-border) !important;
+    border-bottom: 2px solid var(--admin-border-dark) !important;
+}
+
+.module table thead th a {
+    color: var(--admin-gold-light) !important;
 }
 
 .module table tbody td,
 .module table tbody th {
     padding: 0.85rem 1rem !important;
-    border-bottom: 1px solid #f1f5f9 !important;
-    color: #1e293b !important;
+    border-bottom: 1px solid var(--admin-border-dark) !important;
+    color: var(--admin-text-light) !important;
     font-size: 0.92rem !important;
+    background: transparent !important;
 }
 
 .module table tbody tr:hover {
-    background-color: #f8fafc !important;
+    background-color: rgba(212, 175, 55, 0.06) !important;
+}
+
+/* Formularios, Inputs y Controles en Dark Gray */
+input[type=text], 
+input[type=password], 
+input[type=email], 
+input[type=url], 
+input[type=number], 
+input[type=tel], 
+textarea, 
+select, 
+.vTextField {
+    background-color: var(--admin-input-dark) !important;
+    border: 1px solid var(--admin-border-dark) !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    padding: 0.55rem 0.85rem !important;
+    font-size: 0.92rem !important;
+}
+
+input[type=text]:focus, 
+input[type=password]:focus, 
+input[type=email]:focus, 
+input[type=url]:focus, 
+input[type=number]:focus, 
+textarea:focus, 
+select:focus, 
+.vTextField:focus {
+    border-color: var(--admin-gold) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25) !important;
+    background-color: #171d27 !important;
+}
+
+.form-row {
+    border-bottom: 1px solid var(--admin-border-dark) !important;
+}
+
+.form-row label {
+    color: var(--admin-text-gold) !important;
+    font-weight: 600;
+}
+
+.help, p.help {
+    color: var(--admin-text-muted) !important;
 }
 
 /* Mensajes de Feedback de Interfaz (Alerts) */
@@ -268,27 +334,25 @@ ul.messagelist li {
     font-weight: 500 !important;
     display: flex !important;
     align-items: center !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    background: #1c222e !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
 }
 
 ul.messagelist li.success {
-    background: #ecfdf5 !important;
-    color: #065f46 !important;
-    border: 1px solid #a7f3d0 !important;
+    color: #6ee7b7 !important;
+    border: 1px solid #059669 !important;
     border-left: 5px solid #10b981 !important;
 }
 
 ul.messagelist li.warning {
-    background: #fffbeb !important;
-    color: #92400e !important;
-    border: 1px solid #fde68a !important;
+    color: #fef08a !important;
+    border: 1px solid var(--admin-gold) !important;
     border-left: 5px solid #f59e0b !important;
 }
 
 ul.messagelist li.error {
-    background: #fef2f2 !important;
-    color: #991b1b !important;
-    border: 1px solid #fecaca !important;
+    color: #fca5a5 !important;
+    border: 1px solid #dc2626 !important;
     border-left: 5px solid #ef4444 !important;
 }
 
@@ -298,9 +362,9 @@ input[type=submit],
 input[type=button], 
 .submit-row input, 
 a.button {
-    background: #1e293b !important;
-    color: #ffffff !important;
-    border: 1px solid #334155 !important;
+    background: #273142 !important;
+    color: var(--admin-gold-light) !important;
+    border: 1px solid var(--admin-border-dark) !important;
     border-radius: 6px !important;
     padding: 0.6rem 1.2rem !important;
     font-weight: 600 !important;
@@ -314,18 +378,20 @@ input[type=submit]:hover,
 input[type=button]:hover, 
 .submit-row input:hover, 
 a.button:hover {
-    background: #0f172a !important;
-    border-color: #0f172a !important;
+    background: #334055 !important;
+    border-color: var(--admin-gold) !important;
+    color: #ffffff !important;
     transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .button.default, 
 input[type=submit].default, 
 .submit-row input.default {
-    background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%) !important;
+    background: linear-gradient(135deg, #fef08a 0%, #d4af37 50%, #9a7214 100%) !important;
     border: none !important;
-    color: #ffffff !important;
+    color: #0b0e14 !important;
+    font-weight: 700 !important;
 }
 
 .button.default:hover, 
@@ -335,10 +401,10 @@ input[type=submit].default:hover,
     transform: translateY(-1px);
 }
 
-/* Paginador centrado y estilizado */
+/* Paginador centrado y estilizado en Dark Gray */
 .paginator {
-    background: #ffffff !important;
-    border: 1px solid var(--admin-border) !important;
+    background: var(--admin-card-dark) !important;
+    border: 1px solid var(--admin-border-dark) !important;
     border-radius: 8px !important;
     padding: 0.75rem 1.25rem !important;
     margin-top: 1rem !important;
@@ -348,15 +414,15 @@ input[type=submit].default:hover,
 
 .paginator a:link, 
 .paginator a:visited {
-    color: #2563eb !important;
+    color: var(--admin-gold-light) !important;
     font-weight: 600 !important;
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
 }
 
 .paginator .this-page {
-    background: #1e293b !important;
-    color: #ffffff !important;
+    background: var(--admin-gold) !important;
+    color: #0b0e14 !important;
     padding: 0.25rem 0.6rem !important;
     border-radius: 4px !important;
     font-weight: 700 !important;
@@ -364,40 +430,43 @@ input[type=submit].default:hover,
 
 /* Barra de Búsqueda y Filtros */
 #toolbar {
-    background: #ffffff !important;
-    border: 1px solid var(--admin-border) !important;
+    background: var(--admin-card-dark) !important;
+    border: 1px solid var(--admin-border-dark) !important;
     border-radius: 8px !important;
     padding: 0.85rem 1.25rem !important;
     margin-bottom: 1.25rem !important;
 }
 
 #changelist-search input[type="text"] {
-    border: 1px solid #cbd5e1 !important;
+    border: 1px solid var(--admin-border-dark) !important;
     border-radius: 6px !important;
     padding: 0.5rem 0.85rem !important;
     font-size: 0.9rem !important;
     width: 280px !important;
 }
 
-#changelist-search input[type="text"]:focus {
-    border-color: var(--admin-accent) !important;
-    outline: none !important;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
-}
-
 /* Barra de Filtros Lateral */
 #changelist-filter {
-    background: #ffffff !important;
-    border-left: 1px solid var(--admin-border) !important;
+    background: var(--admin-card-dark) !important;
+    border-left: 1px solid var(--admin-border-dark) !important;
     border-radius: 0 8px 8px 0 !important;
 }
 
 #changelist-filter h2 {
-    background: #1e293b !important;
-    color: #ffffff !important;
+    background: #141821 !important;
+    color: var(--admin-gold-light) !important;
     font-size: 0.85rem !important;
     text-transform: uppercase !important;
     letter-spacing: 0.05em !important;
+}
+
+#changelist-filter a {
+    color: var(--admin-text-light) !important;
+}
+
+#changelist-filter li.selected a {
+    color: var(--admin-gold-light) !important;
+    font-weight: bold;
 }
 
 /* Responsividad */

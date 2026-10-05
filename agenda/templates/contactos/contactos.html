@@ -431,12 +431,12 @@
             </div>
         {% endif %}
 
-        <!-- Panel de Estadísticas / Resumen -->
+        <!-- Panel de Estadísticas / Resumen (Limpio, sin el mensaje de validado) -->
         <div class="row g-4 mb-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="gold-card p-3 d-flex align-items-center justify-content-between">
                     <div>
-                        <span class="text-secondary small text-uppercase">Total Contactos</span>
+                        <span class="text-secondary small text-uppercase">Total Contactos Registrados</span>
                         <h3 class="mb-0 text-gold fw-bold mt-1">{{ total_contactos }}</h3>
                     </div>
                     <div class="contact-avatar">
@@ -444,7 +444,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="gold-card p-3 d-flex align-items-center justify-content-between">
                     <div>
                         <span class="text-secondary small text-uppercase">Registros Filtrados</span>
@@ -452,17 +452,6 @@
                     </div>
                     <div class="contact-avatar">
                         <i class="fa-solid fa-filter text-gold"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="gold-card p-3 d-flex align-items-center justify-content-between">
-                    <div>
-                        <span class="text-secondary small text-uppercase">Estado del Sistema</span>
-                        <h4 class="mb-0 text-success fw-bold mt-1"><i class="fa-solid fa-shield-halved"></i> 100% Validado</h4>
-                    </div>
-                    <div class="contact-avatar">
-                        <i class="fa-solid fa-gem text-gold"></i>
                     </div>
                 </div>
             </div>
@@ -477,7 +466,7 @@
                         <h2 class="gold-title">
                             <i class="fa-solid fa-user-plus text-gold"></i> Nuevo Contacto
                         </h2>
-                        <span class="stat-badge"><i class="fa-solid fa-lock"></i> Seguro</span>
+                        <span class="stat-badge"><i class="fa-solid fa-shield"></i> Agenda</span>
                     </div>
 
                     <form method="post" action="{% url 'mostrar_agenda' %}" novalidate id="contactForm">
