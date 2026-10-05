@@ -88,7 +88,8 @@ def eliminar_contacto(request, pk):
 
 def exportar_contactos_csv(request):
     """
-    Exporta el listado completo o filtrado de contactos a un archivo CSV en casillas individuales con UTF-8 BOM.
+    Exporta el listado completo o filtrado de contactos a un archivo CSV en casillas separadas (compatible con Excel).
+    Incluye BOM UTF-8 y directiva 'sep=;' para forzar la apertura automática en columnas en cualquier versión de Excel.
     """
     q = request.GET.get('q', '').strip()
     if q:
@@ -101,12 +102,15 @@ def exportar_contactos_csv(request):
     else:
         contactos_qs = contacto.objects.all().order_by('-id')
 
-    response = HttpResponse(content_type='text/csv; charset=utf-8')
+    response = HttpResponse(content_type='text/csv; charset=utf-8-sig')
     response['Content-Disposition'] = 'attachment; filename="contactos_agenda.csv"'
 
-    # Escribir BOM para correcta apertura en Excel en columnas separadas
+    # 1. UTF-8 BOM (para que Excel interprete tildes y caracteres latinos)
     response.write('\ufeff'.encode('utf-8'))
-    writer = csv.writer(response, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    # 2. Directiva para Excel: fuerza la separación en columnas automáticamente al abrir con doble clic
+    response.write('sep=;\r\n'.encode('utf-8'))
+
+    writer = csv.writer(response, delimiter=';', dialect='excel', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(['ID', 'Nombre Completo', 'Teléfono', 'Correo Electrónico', 'Dirección'])
 
     for c in contactos_qs:
