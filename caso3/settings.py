@@ -34,7 +34,7 @@ SECRET_KEY = 'django-insecure-@+1#hxi^_+jcg^nuu%n-%(6#j&%0tbqv*_d^#r4hhf0vmtq(%h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['caso3-backend-k5lb-3subauv7h-veraniegoscorp.vercel.app','caso3-backend-k5lb-omega.vercel.app']
+ALLOWED_HOSTS = ['caso3-backend-k5lb-3subauv7h-veraniegoscorp.vercel.app','caso3-backend-k5lb-omega.vercel.app','127.0.0.1']
 
 
 # Application definition
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'agenda',
+    "rest_framework",
 ]
 
 MIDDLEWARE = [

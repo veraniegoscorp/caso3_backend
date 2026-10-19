@@ -3,3 +3,7 @@ psycopg2-binary
 python-dotenv
 whitenoise
 openpyxl
+
+djangorestframework
+markdown
+django-filter
