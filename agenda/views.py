@@ -5,11 +5,14 @@ from django.db.models import Q
 from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.http import require_GET, require_POST
 from .forms import ContactoForm
 from .models import contacto
 
 
+@login_required(login_url='admin:login')
 def mostrar_agenda(request):
     """
     Vista principal de la agenda: listado con búsqueda, paginación,
@@ -72,6 +75,8 @@ def mostrar_agenda(request):
     return render(request, 'contactos/contactos.html', context)
 
 
+@login_required(login_url='admin:login')
+@require_POST
 def eliminar_contacto(request, pk):
     """
     Permite eliminar un contacto con confirmación y mensaje de feedback.
@@ -86,6 +91,8 @@ def eliminar_contacto(request, pk):
     return redirect('mostrar_agenda')
 
 
+@login_required(login_url='admin:login')
+@require_GET
 def exportar_contactos_csv(request):
     """
     Genera un archivo .xlsx real de Excel con cada campo en su propia casilla,

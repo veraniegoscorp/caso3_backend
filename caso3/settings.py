@@ -23,6 +23,11 @@ db_port = os.getenv("port")
 db_database = os.getenv("database")
 db_user = os.getenv("user")
 db_password = os.getenv("password")
+cors_allowed_origins = [
+    origin.strip()
+    for origin in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+    if origin.strip()
+]
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'agenda',
 ]
 
@@ -53,12 +59,17 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = cors_allowed_origins
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = cors_allowed_origins
 
 ROOT_URLCONF = 'caso3.urls'
 
