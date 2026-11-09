@@ -39,7 +39,7 @@ SECRET_KEY = 'django-insecure-@+1#hxi^_+jcg^nuu%n-%(6#j&%0tbqv*_d^#r4hhf0vmtq(%h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['caso3-backend-k5lb-3subauv7h-veraniegoscorp.vercel.app','caso3-backend-k5lb-omega.vercel.app']
+ALLOWED_HOSTS = ['caso3-backend-k5lb-3subauv7h-veraniegoscorp.vercel.app','caso3-backend-k5lb-omega.vercel.app','127.0.0.1']
 
 
 # Application definition
@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'agenda',
+    "rest_framework",
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +68,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+REST_FRAMEWORK ={
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES':(
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
+
+
 
 CORS_ALLOWED_ORIGINS = cors_allowed_origins
 CORS_ALLOW_CREDENTIALS = True

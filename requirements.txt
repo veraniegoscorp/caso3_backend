@@ -4,3 +4,7 @@ python-dotenv
 whitenoise
 openpyxl
 django-cors-headers
+djangorestframework
+markdown
+django-filter
+djangorestframework-simplejwt
